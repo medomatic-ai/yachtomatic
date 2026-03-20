@@ -22,6 +22,7 @@ export function RulesList({ rules, onToggle, onRemove }: RulesListProps) {
               type="checkbox"
               checked={rule.enabled}
               onChange={() => onToggle(rule.id)}
+              title="Uncheck to temporarily disable this rule without deleting it"
               className="accent-blue-500"
             />
             <span
@@ -33,6 +34,7 @@ export function RulesList({ rules, onToggle, onRemove }: RulesListProps) {
             </span>
             <button
               onClick={() => onRemove(rule.id)}
+              title="Remove this rule"
               className="text-gray-500 hover:text-red-400 text-sm transition-colors"
             >
               x

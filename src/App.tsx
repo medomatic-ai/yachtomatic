@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useMockSession } from "./hooks/useMockSession";
 import { SchemaEditor } from "./components/SchemaEditor";
 import { PromptInput } from "./components/PromptInput";
@@ -6,11 +5,9 @@ import { RulesList } from "./components/RulesList";
 import { ApiKeyInput } from "./components/ApiKeyInput";
 import { ResponsePanel } from "./components/ResponsePanel";
 import { EndpointBar } from "./components/EndpointBar";
-import { FinalizeModal } from "./components/FinalizeModal";
 
 export default function App() {
   const session = useMockSession();
-  const [showFinalize, setShowFinalize] = useState(false);
 
   const canGenerate =
     session.schema.trim() !== "" &&
@@ -64,6 +61,7 @@ export default function App() {
             <button
               onClick={session.generate}
               disabled={!canGenerate || !schemaValid}
+              title="Send the schema and rules to Claude to generate a realistic sample response"
               className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-medium rounded-lg transition-colors"
             >
               {session.isGenerating ? "Generating..." : "Generate"}
@@ -83,26 +81,9 @@ export default function App() {
               isLocking={session.isLocking}
               onToggleMode={session.toggleMode}
             />
-
-            {session.response != null && (
-              <button
-                onClick={() => setShowFinalize(true)}
-                className="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-medium rounded-lg transition-colors"
-              >
-                Finalize & Send to Anderson
-              </button>
-            )}
           </div>
         </div>
       </main>
-
-      <FinalizeModal
-        isOpen={showFinalize}
-        onClose={() => setShowFinalize(false)}
-        schema={session.schema}
-        rules={session.rules}
-        endpointUrl={session.mockEndpointUrl || ""}
-      />
     </div>
   );
 }
