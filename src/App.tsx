@@ -9,9 +9,15 @@ import { ResponsePanel } from "./components/ResponsePanel";
 import { EndpointBar } from "./components/EndpointBar";
 import { PassphraseGate } from "./components/PassphraseGate";
 import { SchemaPresets } from "./components/SchemaPresets";
+import { DocsPage } from "./components/DocsPage";
 
 function AppInner() {
   const session = useMockSession();
+  const [showDocs, setShowDocs] = useState(false);
+
+  if (showDocs) {
+    return <DocsPage onBack={() => setShowDocs(false)} />;
+  }
 
   const canGenerate =
     session.schema.trim() !== "" &&
@@ -44,6 +50,12 @@ function AppInner() {
               Mock API
             </p>
           </div>
+          <button
+            onClick={() => setShowDocs(true)}
+            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-sm text-gray-100 rounded-lg transition-colors"
+          >
+            Docs
+          </button>
         </div>
       </header>
 
@@ -54,6 +66,7 @@ function AppInner() {
               currentSchema={session.schema}
               currentRules={session.rules}
               currentApiKey={session.apiKey}
+              currentResponse={session.response}
               onLoad={handleLoadPreset}
             />
 

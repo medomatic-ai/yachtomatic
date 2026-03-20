@@ -15,7 +15,7 @@ Deno.serve(async (req) => {
   if (req.method === "GET") {
     const { data, error } = await supabase
       .from("saved_schemas")
-      .select("id, name, schema, rules, api_key, created_at, updated_at")
+      .select("id, name, schema, rules, api_key, slug, locked_response, created_at, updated_at")
       .order("name");
 
     if (error) {
@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
   // POST — save or update a schema
   if (req.method === "POST") {
     try {
-      const { name, schema, rules, apiKey } = await req.json();
+      const { name, schema, rules, apiKey, slug, lockedResponse } = await req.json();
 
       if (!name || !schema) {
         return new Response(
@@ -51,6 +51,8 @@ Deno.serve(async (req) => {
             schema,
             rules: rules || [],
             api_key: apiKey || null,
+            slug: slug || null,
+            locked_response: lockedResponse || null,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "name" }

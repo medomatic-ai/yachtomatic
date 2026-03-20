@@ -86,7 +86,7 @@ export function EndpointBar({
           Webhook / Generate Endpoint
         </span>
         <p className="text-xs text-gray-500">
-          POST to this URL with {"{"} schema, rules, apiKey {"}"} to generate responses programmatically.
+          POST to this URL with {"{"} schema, rules, apiKey {"}"} to generate responses programmatically. The apiKey is your Anthropic API key (same one you entered above).
         </p>
         <div className="flex items-center gap-2">
           <code className="flex-1 text-xs bg-gray-800 rounded px-3 py-2 text-blue-300 truncate">
