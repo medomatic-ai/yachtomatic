@@ -1,6 +1,3 @@
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-json";
-
 interface ResponsePanelProps {
   response: unknown | null;
   rawError: string | null;
@@ -51,7 +48,6 @@ export function ResponsePanel({
   }
 
   const formatted = JSON.stringify(response, null, 2);
-  const highlighted = highlight(formatted, languages.json, "json");
 
   return (
     <div className="flex-1 bg-gray-900 border border-gray-700 rounded-lg overflow-auto">
@@ -64,11 +60,9 @@ export function ResponsePanel({
           Copy JSON
         </button>
       </div>
-      <pre
-        className="p-4 text-sm"
-        style={{ fontFamily: '"Fira Code", "Fira Mono", monospace', fontSize: 13 }}
-        dangerouslySetInnerHTML={{ __html: highlighted }}
-      />
+      <pre className="p-4 text-sm text-gray-200 font-mono whitespace-pre-wrap">
+        {formatted}
+      </pre>
     </div>
   );
 }

@@ -1,7 +1,3 @@
-import Editor from "react-simple-code-editor";
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-json";
-import "prismjs/themes/prism-tomorrow.css";
 import { useState } from "react";
 
 interface SchemaEditorProps {
@@ -12,7 +8,8 @@ interface SchemaEditorProps {
 export function SchemaEditor({ value, onChange }: SchemaEditorProps) {
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (code: string) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const code = e.target.value;
     onChange(code);
     if (code.trim() === "") {
       setError(null);
@@ -21,8 +18,8 @@ export function SchemaEditor({ value, onChange }: SchemaEditorProps) {
     try {
       JSON.parse(code);
       setError(null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Invalid JSON");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid JSON");
     }
   };
 
@@ -31,21 +28,13 @@ export function SchemaEditor({ value, onChange }: SchemaEditorProps) {
       <label className="text-sm font-medium text-gray-300">
         Output Structure (JSON)
       </label>
-      <div className="border border-gray-700 rounded-lg overflow-hidden bg-gray-900">
-        <Editor
-          value={value}
-          onValueChange={handleChange}
-          highlight={(code) => highlight(code, languages.json, "json")}
-          padding={16}
-          style={{
-            fontFamily: '"Fira Code", "Fira Mono", monospace',
-            fontSize: 13,
-            minHeight: 200,
-            color: "#e4e4e7",
-          }}
-          placeholder='Paste your JSON structure here...'
-        />
-      </div>
+      <textarea
+        value={value}
+        onChange={handleChange}
+        placeholder="Paste your JSON structure here..."
+        spellCheck={false}
+        className="bg-gray-900 border border-gray-700 rounded-lg p-4 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 font-mono min-h-[200px] resize-y"
+      />
       {error && (
         <p className="text-sm text-red-400">{error}</p>
       )}
