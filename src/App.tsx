@@ -34,7 +34,7 @@ export default function App() {
           <div>
             <h1 className="text-xl font-bold">Yachtomatic</h1>
             <p className="text-sm text-gray-400">
-              Mock API for Yotta Matic
+              Mock API
             </p>
           </div>
         </div>
