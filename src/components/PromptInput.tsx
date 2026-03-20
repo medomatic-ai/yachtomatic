@@ -23,7 +23,7 @@ export function PromptInput({ onAddRule }: PromptInputProps) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={"Add rules that control how the mock response is generated.\n\nExamples:\n- Keep item_id and conversation_id the same across regenerations\n- Use realistic UUIDs for all ID fields\n- Link keywords should relate to boat systems (electrical, engine, hull)\n- Always include at least one create_task action"}
-        className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 min-h-[120px] resize-y"
+        className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-3 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 min-h-[160px] resize-y"
       />
       <button
         onClick={handleSubmit}

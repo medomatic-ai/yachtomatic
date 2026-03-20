@@ -54,6 +54,10 @@ export function useMockSession() {
     }));
   }, []);
 
+  const setRules = useCallback((rules: Rule[]) => {
+    setState((s) => ({ ...s, rules }));
+  }, []);
+
   const toggleRule = useCallback((id: string) => {
     setState((s) => ({
       ...s,
@@ -150,6 +154,7 @@ export function useMockSession() {
     setApiKey,
     addRule,
     removeRule,
+    setRules,
     toggleRule,
     generate,
     toggleMode,

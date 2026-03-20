@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { useMockSession } from "./hooks/useMockSession";
+import type { Rule } from "./hooks/useMockSession";
 import { SchemaEditor } from "./components/SchemaEditor";
 import { PromptInput } from "./components/PromptInput";
 import { RulesList } from "./components/RulesList";
 import { ApiKeyInput } from "./components/ApiKeyInput";
 import { ResponsePanel } from "./components/ResponsePanel";
 import { EndpointBar } from "./components/EndpointBar";
+import { PassphraseGate } from "./components/PassphraseGate";
+import { SchemaPresets } from "./components/SchemaPresets";
 
-export default function App() {
+function AppInner() {
   const session = useMockSession();
 
   const canGenerate =
@@ -24,6 +28,12 @@ export default function App() {
     schemaValid = false;
   }
 
+  const handleLoadPreset = (schema: string, rules: Rule[], apiKey: string) => {
+    session.setSchema(schema);
+    session.setRules(rules);
+    session.setApiKey(apiKey);
+  };
+
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <header className="border-b border-gray-800 px-6 py-4">
@@ -40,6 +50,13 @@ export default function App() {
       <main className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-140px)]">
           <div className="flex flex-col gap-4 overflow-auto">
+            <SchemaPresets
+              currentSchema={session.schema}
+              currentRules={session.rules}
+              currentApiKey={session.apiKey}
+              onLoad={handleLoadPreset}
+            />
+
             <SchemaEditor
               value={session.schema}
               onChange={session.setSchema}
@@ -86,4 +103,16 @@ export default function App() {
       </main>
     </div>
   );
+}
+
+export default function App() {
+  const [authenticated, setAuthenticated] = useState(
+    () => localStorage.getItem("yachtomatic_auth") === "true"
+  );
+
+  if (!authenticated) {
+    return <PassphraseGate onAuthenticated={() => setAuthenticated(true)} />;
+  }
+
+  return <AppInner />;
 }
